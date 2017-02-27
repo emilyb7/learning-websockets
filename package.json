@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "hapi": "^16.1.0",
+    "inert": "^4.1.0",
     "ws": "^2.1.0"
   }
 }
