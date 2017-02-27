@@ -1,4 +1,5 @@
 module.exports = [
    { method: 'GET', path: '/', handler: require('./index.js') },
-   { method: 'GET', path: '/{file*}', handler: { directory: { path: 'public/' } } },
+   { method: 'GET', path: '/socket.js', handler: (request, response) => { response.file('./public/socket.js') } },
+   { method: 'GET', path: '/bundle.js', handler: (request, response) => { response.file('bundle.js') } },
 ];

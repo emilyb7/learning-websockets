@@ -1,6 +1,6 @@
 console.log("web socketing");
 
-var url = "ws://localhost:8080/echo";
+var url = "ws://localhost:7777/echo";
 
 var socket = new WebSocket(url);
 
