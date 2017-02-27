@@ -1,7 +1,5 @@
 const ws = require('ws');
 
-const url = require('url');
-
 const w = new ws.Server({
   port: 8080,
   perMessageDeflate: false,
