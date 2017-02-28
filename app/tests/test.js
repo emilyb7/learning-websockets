@@ -1,19 +1,39 @@
 const test = require('tape');
 
-const isSpaceFree = require('../gameplay.js').isSpaceFree;
+const updateBoard = require('../gameplay.js').updateBoard;
 const threeInALine = require('../gameplay.js').threeInALine;
 const getCols = require('../gameplay.js').getCols;
 const getDiagonals = require('../gameplay.js').getDiagonals;
 const getAllLines = require('../gameplay.js').getAllLines;
 const findLine = require('../gameplay.js').findLine;
+const move = require('../gameplay.js').move;
 
-test("isSpaceFree takes details of a space on the board and the current board and returns whether or not that space would be availeble", (t) => {
+test("move takes all variables from the game and updates the state", (t) => {
+  // params: space, player, round, board
+  const board1 = [[0,undefined,1],[undefined,undefined,undefined],[undefined,undefined,undefined]];
+  const result1 = {
+    board: [[0,undefined,1],[undefined,0,undefined],[undefined,undefined,undefined]],
+    player: 1,
+    round: 3,
+    win: null,
+  };
+  t.deepEqual(move("1:1", 0, 2, board1), result1);
+  t.end();
+})
+
+test("updateBoard takes a space, player and an array representing the board, and returns the board with the player's piece in place", (t) => {
   const board1 = [[undefined,undefined,undefined],[undefined,undefined,undefined],[undefined,undefined,undefined]];
-  const board2 = [[undefined,0,1],[undefined,undefined,undefined],[undefined,undefined,undefined]];
-  const board3 = [[1,0,undefined],[undefined,undefined,undefined],[undefined,undefined,undefined]];
-  t.equals(isSpaceFree("0:0", board1), true, "returns true when the board is empty");
-  t.equals(isSpaceFree("0:0", board2), true, "returns true when other spaces are occupied but not this one");
-  t.equals(isSpaceFree("0:0", board3), false, "returns false when space is occupied");
+  t.deepEqual(updateBoard("0:0", 1, board1), [[1,undefined,undefined],[undefined,undefined,undefined],[undefined,undefined,undefined]] );
+
+  const board2 = [[0,1,undefined],[undefined,undefined,undefined],[undefined,undefined,undefined]];
+  t.deepEqual(updateBoard("0:2", 0, board2), [[0,1,0],[undefined,undefined,undefined],[undefined,undefined,undefined]] );
+
+  const board3 = [[0,1,0],[0,1,undefined],[undefined,undefined,undefined]];
+  t.deepEqual(updateBoard("1:2", 1, board3), [[0,1,0],[0,1,1],[undefined,undefined,undefined]] );
+
+  const board4 = [[0,undefined,1],[undefined,undefined,undefined],[undefined,undefined,undefined]];
+  t.deepEqual(updateBoard("1:1", 0, board4), [[0,undefined,1],[undefined,0,undefined],[undefined,undefined,undefined]]);
+
   t.end();
 });
 
@@ -28,10 +48,11 @@ test("getCols takes an array representing the board and returns a 2-d array repr
   const board1 = [[undefined,undefined,undefined],[undefined,undefined,undefined],[undefined,undefined,undefined]];
   const board2 = [[1,1,1],[undefined,undefined,undefined],[undefined,undefined,undefined]];
   const board3 = [[1,undefined,1],[0,undefined,0],[undefined,undefined,undefined]];
+  const board4 = [[0,undefined,1],[undefined,undefined,undefined],[undefined,undefined,undefined]];
   t.deepEqual(getCols(board1), [[undefined,undefined,undefined],[undefined,undefined,undefined],[undefined,undefined,undefined]], "returns 3 empty cols");
   t.deepEqual(getCols(board2), [[1,undefined,undefined],[1,undefined,undefined],[1,undefined,undefined]], "returns 3 cols");
   t.deepEqual(getCols(board3), [[1,0,undefined],[undefined,undefined,undefined],[1,0,undefined]], "returns 3 cols");
-
+  t.deepEqual(getCols(board4), [[0,undefined,undefined],[undefined,undefined,undefined],[1,undefined,undefined]])
   t.end();
 });
 
@@ -54,26 +75,28 @@ test("getAllLines gets an array of all possible combinations of lines", (t) => {
   t.end();
 });
 
-test("findLine checks the board for a winning line", (t) => {
+test("findLine takes the id of the player, the current round, and the board, checks the board for a winning line", (t) => {
   // no winner
   const board1 = [[undefined,undefined,undefined],[undefined,undefined,undefined],[undefined,undefined,undefined]];
   const board2 = [[1,undefined,1],[0,undefined,0],[undefined,undefined,undefined]];
-  t.deepEqual(findLine(board1, 1), null, "returns null if board is empty");
-  t.deepEqual(findLine(board2, 1), null, "returns null if no winner found");
+  t.deepEqual(findLine(1, 0, board1), null, "returns null if board is empty");
+  t.deepEqual(findLine(1, 3, board2), null, "returns null if no winner found");
 
   // winner
   const board3 = [[1,1,1],[0,undefined,0],[undefined,undefined,undefined]];
   const result3 = {
+    win: 1,
     line: ["0:0", "0:1", "0:2"],
     winner: 1,
   };
-  t.deepEqual(findLine(board3, 1), result3, "finds position of winning line in first row");
+  t.deepEqual(findLine(1, 4, board3), result3, "finds position of winning line in first row");
 
   const board4 = [[0,undefined,1],[1,0,0],[undefined,undefined,0]];
   const result4 = {
+    win: 1,
     line: ["0:0", "1:1", "2:2"],
     winner: 0,
   };
-  t.deepEqual(findLine(board4, 0), result4, "finds diagonal line");
+  t.deepEqual(findLine(0, 4, board4), result4, "finds diagonal line");
   t.end();
 });

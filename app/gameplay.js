@@ -1,26 +1,23 @@
-/*
-const board = [
-  [1,0,],
-  [,,],
-  [,,]
-]
-*/
-
-const move = (space, player, board) => {
-  // returns board with new piece in place
-
-  /*
-    STATE
-    board (spaces, counter),
-    whose turn
-    names of players
-    state of play: waiting to start, playing, draw, win ( + winner)
-  */
+const move = (space, player, round, board) => {
+  const newBoard = updateBoard(space, player, board);
+  const outcome = findLine(player, round, board);
+  const nextPlayer = outcome === null
+    ? player === 0 ? 1 : 0
+    : null;
+  return {
+    board: newBoard,
+    player: nextPlayer,
+    round: outcome === null ? round + 1 : null,
+    win: outcome,
+  }
 }
 
-const isSpaceFree = (space, board) => {
-  const [y, x] = space.split(":");
-  return board[y][x] === undefined;
+const updateBoard = (space, player, board) => {
+  const [y, x] = space.split(":").map(n => parseInt(n));
+  const row0 = y !== 0 ? board[0].slice(0) : board[0].slice(0, x).concat([player]).concat(board[0].slice(x + 1));
+  const row1 = y !== 1 ? board[1].slice(0) : board[1].slice(0, x).concat([player]).concat(board[1].slice(x + 1));
+  const row2 = y !== 2 ? board[2].slice(0) : board[2].slice(0, x).concat([player]).concat(board[2].slice(x + 1));
+  return [row0, row1, row2];
 }
 
 const threeInALine = (line, counter) =>
@@ -45,7 +42,7 @@ const getAllLines = board => {
       .concat(getDiagonals(board));
 };
 
-const findLine = (board, counter) => {
+const findLine = (player, round, board) => {
   const map = [
     // rows
     ["0:0", "0:1", "0:2"], ["1:0", "1:1", "1:2"], ["2:0", "2:1", "2:2"],
@@ -57,26 +54,21 @@ const findLine = (board, counter) => {
     ["0:0", "1:1", "2:2"], ["0:2", "1:1", "2:0"],
   ];
   const index = getAllLines(board)
-    .findIndex((line, index) => threeInALine(line, counter));
-  if (index > -1) {
-    return {
-      line: map[index],
-      winner: counter,
-    }
-  } else {
-    return null;
-  }
-}
+    .findIndex((line, index) => threeInALine(line, player));
 
-const eval = (board) => {
-
+  return index > -1
+    ? { win: 1, line: map[index], winner: player, }
+    : round === 8
+      ? { win: 0, line: null, winner: null, }
+      : null;
 };
 
 module.exports = {
-  isSpaceFree: isSpaceFree,
+  updateBoard: updateBoard,
   threeInALine: threeInALine,
   getCols: getCols,
   getDiagonals: getDiagonals,
   getAllLines: getAllLines,
   findLine: findLine,
+  move: move,
 };
