@@ -4,6 +4,10 @@ import gameplay from './../gameplay.js';
 
 const move = gameplay.move;
 
+const myFunction = (str) => {
+  console.log(str);
+}
+
 const state = {
   board: [[undefined,undefined,undefined],[undefined,undefined,undefined],[undefined,undefined,undefined]],
 }
@@ -11,7 +15,7 @@ const state = {
 const Board = () => (
   <div id="board">
     <div className="row" id="row-0">
-      <div className="space" id="space-0:0"></div>
+      <div className="space" id="space-0:0" onClick={myFunction}></div>
       <div className="space" id="space-0:1"></div>
       <div className="space" id="space-0:2"></div>
     </div>
