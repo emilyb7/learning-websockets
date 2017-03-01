@@ -1,15 +1,17 @@
+/* modules */
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 
+/* components */
 import App from './components/app.js';
 
-// import store from './app/reducers/index.js';
-//import { createStore } from 'redux';
-//const store = createStore(Store);
+/* redux stuff*/
+import Store from './reducers/index.js';
+import { createStore } from 'redux';
+const store = createStore(Store);
 
-render(
-  <App />,
-  document.getElementById('root'),
-)
+const render = () => ReactDOM.render(<App store={store}/>, document.getElementById('root'));
 
-// store.subscribe(render);
+render();
+
+store.subscribe(render);

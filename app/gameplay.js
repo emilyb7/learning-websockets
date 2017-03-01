@@ -4,12 +4,13 @@ const move = (space, player, round, board) => {
   const nextPlayer = outcome === null
     ? player === 0 ? 1 : 0
     : null;
-  return {
+  const result = {
     board: newBoard,
     player: nextPlayer,
     round: outcome === null ? round + 1 : null,
     win: outcome,
   }
+  return result;
 }
 
 const updateBoard = (space, player, board) => {
