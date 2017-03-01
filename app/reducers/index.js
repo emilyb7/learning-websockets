@@ -24,9 +24,9 @@ import { move } from './../gameplay.js';
 export default (state = defaultState, action) => {
   switch(action.type) {
     case 'MOVE':
-      // return something;
       const nextIteration = move(action.space, state.game.player, state.game.round, state.game.board);
-      const result = Object.assign({}, state, {
+      if (nextIteration.success === false) return state;
+      else return Object.assign({}, state, {
         game: {
           board: nextIteration.board,
           player: nextIteration.player,
@@ -34,7 +34,6 @@ export default (state = defaultState, action) => {
           win: nextIteration.win,
         }
       });
-      return result;
     default:
       return state;
   }

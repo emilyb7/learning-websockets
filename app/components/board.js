@@ -7,12 +7,12 @@ const Board = props => {
       className={"row"}
       key={`row_${rowIndex}`}
     >
-      { row.map((_, colIndex) => <div
+      { row.map((col, colIndex) => <div
         className={"space"}
         key={`space-${rowIndex}:${colIndex}`}
         id={`${rowIndex}:${colIndex}`}
         onClick={ props.actionMove }
-      ></div>)
+      >{col}</div>)
     } </div>);
 
   return (<div id={"board"}>{ rows }</div>);

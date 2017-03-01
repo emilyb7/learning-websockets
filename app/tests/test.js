@@ -16,6 +16,7 @@ test("move takes all variables from the game and updates the state", (t) => {
     player: 1,
     round: 3,
     win: null,
+    success: true,
   };
   t.deepEqual(move("1:1", 0, 2, board1), result1);
   t.end();

@@ -1,16 +1,24 @@
 const move = (space, player, round, board) => {
-  const newBoard = updateBoard(space, player, board);
-  const outcome = findLine(player, round, board);
-  const nextPlayer = outcome === null
-    ? player === 0 ? 1 : 0
-    : null;
-  const result = {
-    board: newBoard,
-    player: nextPlayer,
-    round: outcome === null ? round + 1 : null,
-    win: outcome,
+  const [y, x] = space.split(":");
+  if(board[y][x] === undefined) {
+    const newBoard = updateBoard(space, player, board);
+    const outcome = findLine(player, round, board);
+    const nextPlayer = outcome === null
+      ? player === 0 ? 1 : 0
+      : null;
+    const result = {
+      board: newBoard,
+      player: nextPlayer,
+      round: outcome === null ? round + 1 : null,
+      win: outcome,
+      success: true,
+    }
+    return result;
+  } else {
+    return {
+      success: false,
+    }
   }
-  return result;
 }
 
 const updateBoard = (space, player, board) => {
