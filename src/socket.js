@@ -4,7 +4,7 @@ const server = require('./../server.js');
 
 const w = new ws.Server({
   server: server,
-  port: 80,
+  port: 8000,
   perMessageDeflate: false,
 });
 
