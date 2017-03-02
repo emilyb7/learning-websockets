@@ -14,6 +14,7 @@ class App extends React.Component {
       <div>
         <h1>Sockety</h1>
         <Board
+          socket = { socket }
           value={ store.getState() }
           actionMove={ event => store.dispatch({ type: 'MOVE', space: event.target.id }) }
         />

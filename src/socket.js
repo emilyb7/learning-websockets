@@ -52,6 +52,7 @@ w.on('connection', (ws) => {
   // handle user input
   ws.on('message', (msg) => {
     if (members) {
+      console.log(msg);
       channel(members, msg);
     }
   });
