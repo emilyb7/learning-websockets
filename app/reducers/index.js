@@ -1,4 +1,5 @@
 import move from './move.js';
+import send from './send-message.js';
 
 const defaultState = {
   currentPlayer: null,
@@ -22,14 +23,15 @@ const defaultState = {
     round: 0,
     win: null,
   },
+  messages: [],
 };
 
 export default (state = defaultState, action) => {
   switch(action.type) {
     case 'MOVE': return move(state, action);
-    case 'NEW-PLAYERS':
-      const playerid = action.response.playerid;
-      return Object.assign({}, state, { currentPlayer: playerid, })
+    case 'NEW-PLAYERS': return Object.assign({}, state, { currentPlayer: action.response.playerid, });
+    case 'OPPONENT-MOVE': return oppenentMove(state, action);
+    case 'SEND': return send(state, action);
     default:
       return state;
   }

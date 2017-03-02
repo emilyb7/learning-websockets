@@ -15,6 +15,7 @@ class App extends React.Component {
           socket = { socket }
           value={ store.getState() }
           actionMove={ event => store.dispatch({ type: 'MOVE', space: event.target.id }) }
+          actionSend={ () => store.dispatch({ type: 'SEND' })}
         />
       </div>
     );

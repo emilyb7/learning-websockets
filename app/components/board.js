@@ -2,6 +2,11 @@ import React from 'react';
 
 const Board = props => {
   console.log(props.value);
+
+  if (props.value.messages.some(msg => msg.sent === false)) {
+    props.actionSend();
+  }
+
   const rows = props.value.game.board.map((row, rowIndex) =>
     <div
       className={"row"}
