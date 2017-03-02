@@ -1,6 +1,9 @@
 const ws = require('ws');
 
+const server = require('./../server.js');
+
 const w = new ws.Server({
+  //server: server,
   port: 7777,
   perMessageDeflate: false,
 });

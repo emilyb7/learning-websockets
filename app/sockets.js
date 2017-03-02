@@ -2,7 +2,7 @@ import Store from './reducers/index.js';
 
 console.log("web socketing");
 
-const url = "ws://localhost:7777/echo";
+const url = location.origin.replace(/^http/, "ws");
 
 const socket = new WebSocket(url);
 
