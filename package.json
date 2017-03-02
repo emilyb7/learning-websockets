@@ -13,8 +13,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.15.0",
     "hapi": "^16.1.0",
     "inert": "^4.1.0",
+    "path": "^0.12.7",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "redux": "^3.6.0",

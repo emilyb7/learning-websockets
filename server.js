@@ -1,16 +1,20 @@
 const Hapi = require('hapi');
+const express = require('express');
+const path = require('path');
 const Inert = require('inert');
 const ws = require('ws');
 
-const server = new Hapi.Server();
+const PORT = process.env.PORT || 7000;
+const INDEX = path.join(__dirname, 'index.html');
 
-server.register([Inert], (err) => {
+const server = express()
+  .use((req, res) => res.sendFile(INDEX) )
+  //.use('/bundle.js', express.static(path.join(__dirname, 'bundle.js')))
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-  server.connection({ port: process.env.PORT || 7000, });
-  
-  server.route(require('./src/routes.js'));
+const wss = new ws.Server({ server });
 
-  server.start(() => { console.log((`Server running at: ${server.info.uri}`)); })
+wss.on('connection', (ws) => {
+  console.log('Client connected');
+  ws.on('close', () => console.log('Client disconnected'));
 });
-
-module.exports = server;
