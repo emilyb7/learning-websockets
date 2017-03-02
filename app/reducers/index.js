@@ -1,4 +1,4 @@
-import { move } from './../gameplay.js';
+import move from './move.js';
 
 const defaultState = {
   currentPlayer: null,
@@ -26,23 +26,10 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
   switch(action.type) {
-    case 'MOVE':
-      const nextIteration = move(action.space, state.currentPlayer, state.game.player, state.game.round, state.game.board);
-      if (nextIteration.success === false) return state;
-      else {
-        socket.send(action.space);
-        return Object.assign({}, state, {
-          game: {
-            board: nextIteration.board,
-            player: nextIteration.player,
-            round: nextIteration.round,
-            win: nextIteration.win,
-          }
-        })
-      };
+    case 'MOVE': return move(state, action);
     case 'NEW-PLAYERS':
       const playerid = action.response.playerid;
-      return Object.assign({}, state, { currentPlayer: playerid, });
+      return Object.assign({}, state, { currentPlayer: playerid, })
     default:
       return state;
   }

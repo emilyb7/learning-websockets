@@ -12,6 +12,12 @@ const store = createStore(Store);
 
 import socket from './sockets.js';
 
+socket.onmessage = (event) => {
+  console.log(event.data);
+  const response = JSON.parse(event.data);
+  store.dispatch({ type: response.type, response: response})
+}
+
 const render = () => ReactDOM.render(<App store={store} socket={socket}/>, document.getElementById('root'));
 
 render();

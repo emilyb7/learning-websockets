@@ -15,6 +15,7 @@ const move = (space, user, player, round, board) => {
     }
     return result;
   } else {
+    console.log("not your turn");
     return {
       success: false,
     }

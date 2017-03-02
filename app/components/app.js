@@ -1,7 +1,5 @@
 import React from 'react';
 import Board from './board.js';
-import Store from './../reducers/index.js';
-import { createStore } from 'redux';
 
 class App extends React.Component {
 
