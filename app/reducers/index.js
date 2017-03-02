@@ -1,5 +1,6 @@
 import move from './move.js';
 import send from './send-message.js';
+import oppenentMove from './opponent-move.js';
 
 const defaultState = {
   currentPlayer: null,
