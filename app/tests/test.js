@@ -9,7 +9,7 @@ const findLine = require('../gameplay.js').findLine;
 const move = require('../gameplay.js').move;
 
 test("move takes all variables from the game and updates the state", (t) => {
-  // params: space, player, round, board
+  // params: space, user, player, round, board
   const board1 = [[0,undefined,1],[undefined,undefined,undefined],[undefined,undefined,undefined]];
   const result1 = {
     board: [[0,undefined,1],[undefined,0,undefined],[undefined,undefined,undefined]],
@@ -18,7 +18,7 @@ test("move takes all variables from the game and updates the state", (t) => {
     win: null,
     success: true,
   };
-  t.deepEqual(move("1:1", 0, 2, board1), result1);
+  t.deepEqual(move("1:1", 0, 0, 2, board1), result1);
   t.end();
 })
 

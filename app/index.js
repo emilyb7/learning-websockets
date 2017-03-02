@@ -10,7 +10,28 @@ import Store from './reducers/index.js';
 import { createStore } from 'redux';
 const store = createStore(Store);
 
-const render = () => ReactDOM.render(<App store={store}/>, document.getElementById('root'));
+console.log("web socketing");
+
+var url = "ws://localhost:7777/echo";
+
+var socket = new WebSocket(url);
+
+socket.onopen = function (event) {
+  console.log("socket opened");
+
+}
+
+socket.onmessage = function (event) {
+  console.log(event.data);
+  const response = JSON.parse(event.data);
+  store.dispatch({ type: response.type, response: response})
+}
+
+socket.onclose = function (event) {
+  console.log("disconnected");
+}
+
+const render = () => ReactDOM.render(<App store={store} socket={socket}/>, document.getElementById('root'));
 
 render();
 

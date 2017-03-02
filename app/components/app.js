@@ -7,25 +7,9 @@ class App extends React.Component {
 
   render () {
 
-      console.log("web socketing");
-
-      var url = "ws://localhost:7777/echo";
-
-      var socket = new WebSocket(url);
-
-      socket.onopen = function (event) {
-        socket.send("hello server");
-      }
-
-      socket.onmessage = function (event) {
-        console.log(event.data);
-      }
-
-      socket.onclose = function (event) {
-        console.log("disconnected");
-      }
-      
     const store = this.props.store;
+    const socket = this.props.socket;
+
     return (
       <div>
         <h1>Sockety</h1>

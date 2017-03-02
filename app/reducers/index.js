@@ -1,14 +1,17 @@
 const defaultState = {
+  currentPlayer: null,
   players: [
     {
       id: 0,
       name: "player1",
-      counter: "x",
+      counter: "",
+      currentPlayer: false,
     },
     {
       id: 1,
       name: "player2",
-      counter: "o",
+      counter: "",
+      currentPlayer: false,
     },
 ],
   game: {
@@ -24,7 +27,7 @@ import { move } from './../gameplay.js';
 export default (state = defaultState, action) => {
   switch(action.type) {
     case 'MOVE':
-      const nextIteration = move(action.space, state.game.player, state.game.round, state.game.board);
+      const nextIteration = move(action.space, state.currentPlayer, state.game.player, state.game.round, state.game.board);
       if (nextIteration.success === false) return state;
       else return Object.assign({}, state, {
         game: {
@@ -34,6 +37,9 @@ export default (state = defaultState, action) => {
           win: nextIteration.win,
         }
       });
+    case 'NEW-PLAYERS':
+      const playerid = action.response.playerid;
+      return Object.assign({}, state, { currentPlayer: playerid, });
     default:
       return state;
   }
