@@ -8,13 +8,13 @@ const defaultState = {
     {
       id: 0,
       name: "player1",
-      counter: "",
+      counter: "O",
       currentPlayer: false,
     },
     {
       id: 1,
       name: "player2",
-      counter: "",
+      counter: "X",
       currentPlayer: false,
     },
 ],

@@ -1,7 +1,6 @@
 import React from 'react';
 
 const Board = props => {
-  console.log(props.value);
 
   if (props.value.messages.some(msg => msg.sent === false)) {
     props.actionSend();
@@ -12,12 +11,12 @@ const Board = props => {
       className={"row"}
       key={`row_${rowIndex}`}
     >
-      { row.map((col, colIndex) => <div
+      { row.map((space, colIndex) => <div
         className={"space"}
         key={`space-${rowIndex}:${colIndex}`}
         id={`${rowIndex}:${colIndex}`}
         onClick={ props.actionMove }
-      >{col}</div>)
+      >{space > -1 ? props.value.players.find(p => p.id === space).counter : ""}</div>)
     } </div>);
 
   return (<div id={"board"}>{ rows }</div>);

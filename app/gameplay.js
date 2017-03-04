@@ -1,8 +1,8 @@
 const move = (space, user, player, round, board) => {
   const [y, x] = space.split(":");
-  if (board[y][x] === undefined && user === player) {
+  if (board[y][x] === undefined && user === player && round !== null) {
     const newBoard = updateBoard(space, player, board);
-    const outcome = findLine(player, round, board);
+    const outcome = findLine(player, round, newBoard);
     const nextPlayer = outcome === null
       ? player === 0 ? 1 : 0
       : null;
@@ -12,6 +12,13 @@ const move = (space, user, player, round, board) => {
       round: outcome === null ? round + 1 : null,
       win: outcome,
       success: true,
+    }
+    if (result.win !== null) {
+      if (result.win.win === 1) {
+        console.log(`player ${result.win.winner} wins`);
+      } else {
+        console.log("it's a draw!");
+      }
     }
     return result;
   } else {
