@@ -1,15 +1,24 @@
+/* modules */
 import React from 'react';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 
+/* components */
 import App from './components/app.js';
 
-// import store from './app/reducers/index.js';
-//import { createStore } from 'redux';
-//const store = createStore(Store);
+/* redux stuff*/
+import Store from './reducers/index.js';
+import { createStore } from 'redux';
+const store = createStore(Store);
 
-render(
-  <App />,
-  document.getElementById('root'),
-)
+import socket from './sockets.js';
 
-// store.subscribe(render);
+socket.onmessage = (event) => {
+  const response = JSON.parse(event.data);
+  store.dispatch({ type: response.type, response: response})
+}
+
+const render = () => ReactDOM.render(<App store={store} socket={socket}/>, document.getElementById('root'));
+
+render();
+
+store.subscribe(render);

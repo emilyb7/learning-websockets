@@ -1,35 +1,25 @@
 import React from 'react';
 
-import gameplay from './../gameplay.js';
+const Board = props => {
 
-const move = gameplay.move;
+  if (props.value.messages.some(msg => msg.sent === false)) {
+    props.actionSend();
+  }
 
-const myFunction = (str) => {
-  console.log(str);
+  const rows = props.value.game.board.map((row, rowIndex) =>
+    <div
+      className={"row"}
+      key={`row_${rowIndex}`}
+    >
+      { row.map((space, colIndex) => <div
+        className={"space"}
+        key={`space-${rowIndex}:${colIndex}`}
+        id={`${rowIndex}:${colIndex}`}
+        onClick={ props.actionMove }
+      >{space > -1 ? props.value.players.find(p => p.id === space).counter : ""}</div>)
+    } </div>);
+
+  return (<div id={"board"}>{ rows }</div>);
 }
-
-const state = {
-  board: [[undefined,undefined,undefined],[undefined,undefined,undefined],[undefined,undefined,undefined]],
-}
-
-const Board = () => (
-  <div id="board">
-    <div className="row" id="row-0">
-      <div className="space" id="space-0:0" onClick={myFunction}></div>
-      <div className="space" id="space-0:1"></div>
-      <div className="space" id="space-0:2"></div>
-    </div>
-    <div className="row" id="row-1">
-      <div className="space" id="space-1:0"></div>
-      <div className="space" id="space-1:1"></div>
-      <div className="space" id="space-1:2"></div>
-    </div>
-    <div className="row" id="row-2">
-      <div className="space" id="space-1:0"></div>
-      <div className="space" id="space-1:1"></div>
-      <div className="space" id="space-1:2"></div>
-    </div>
-  </div>
-);
 
 export default Board;

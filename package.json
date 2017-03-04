@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "node app/tests/test.js",
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "build": "./node_modules/.bin/webpack-dev-server",
     "watch": "./node_modules/.bin/webpack -d --watch"
   },
@@ -13,8 +13,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "hapi": "^16.1.0",
-    "inert": "^4.1.0",
+    "express": "^4.15.0",
+    "path": "^0.12.7",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "redux": "^3.6.0",
