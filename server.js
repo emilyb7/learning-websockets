@@ -1,11 +1,8 @@
-const Hapi = require('hapi');
 const express = require('express');
 const path = require('path');
-const Inert = require('inert');
 const ws = require('ws');
 
 const PORT = process.env.PORT || 7000;
-const INDEX = path.join(__dirname, 'index.html');
 
 const server = express()
   .use('/', express.static(__dirname))
@@ -22,7 +19,6 @@ w.on('connection', (ws) => {
 let queue = [];
 let members = null;
 
-// potensh refactor using a class?
 const channel = (membersArr, message) => {
   membersArr.forEach(member => {
     member.send(message);
