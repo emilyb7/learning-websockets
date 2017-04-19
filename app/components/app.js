@@ -10,7 +10,6 @@ class App extends React.Component {
 
     return (
       <div>
-        <h1>Sockety</h1>
         <Board
           socket = { socket }
           value={ store.getState() }
