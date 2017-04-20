@@ -1,24 +1,27 @@
 /* modules */
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider, } from 'react-redux';
+import { createStore, applyMiddleware, } from 'redux';
+import socketStarter, { socketsMiddleware, } from './sockets.js';
 
 /* components */
-import App from './components/app.js';
+import App from './app.jsx';
 
 /* redux stuff*/
-import Store from './reducers/index.js';
-import { createStore } from 'redux';
-const store = createStore(Store);
+import reducers from './reducers/index.js';
 
-import socket from './sockets.js';
+const createStoreWithMiddleware = applyMiddleware(socketsMiddleware)(createStore);
 
-socket.onmessage = (event) => {
-  const response = JSON.parse(event.data);
-  store.dispatch({ type: response.type, response: response})
-}
+const store = createStoreWithMiddleware(
+  reducers, window.devToolsExtension && window.devToolsExtension()
+);
 
-const render = () => ReactDOM.render(<App store={store} socket={socket}/>, document.getElementById('root'));
+socketStarter(store);
 
-render();
-
-store.subscribe(render);
+ReactDOM.render(
+  (<Provider store={ store} >
+    <App />
+  </Provider>),
+  document.getElementById('root')
+);
