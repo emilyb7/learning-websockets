@@ -1,42 +1,25 @@
-const actionNewPlayer = playerId => ({
-  type: 'NEW_PLAYERS',
-  playerId: playerId,
-});
-
-const messageSent = () => ({
-  type: 'MESSAGE_SENT',
-});
-
-const actionOpponentMove = (player, space) => ({
-  type: 'OPPONENT-MOVE',
-  player: player,
-  space: space,
-})
+import { actionNewPlayer, messageSent, actionOpponentMove, } from './actions.js';
 
 let socket;
 
-export const socketsMiddleware = (store) => {
-  return next => action => {
-    const result = next(action);
-
-    if (socket && action.type === 'MOVE') {
-      const openMessages = store.getState().messages.filter(ms => !ms.sent);
-      if (openMessages.length) {
-        openMessages.forEach(ms => {
-          socket.send(ms.message);
-        });
-        store.dispatch(messageSent());
-
-      }
+export const socketsMiddleware = (store) =>
+next =>
+action => {
+  const result = next(action);
+  if (socket && action.type === 'MOVE') {
+    const openMessages = store.getState().messages.filter(ms => !ms.sent);
+    if (openMessages.length) {
+      openMessages.forEach(ms => {
+        socket.send(ms.message);
+      });
+      store.dispatch(messageSent());
     }
-
-    return result;
-  };
-}
+  }
+  return result;
+};
 
 export default (store) => {
 
-  console.log("web socketing");
   const url = location.origin.replace(/^http/, "ws");
   socket = new WebSocket(url);
 
@@ -50,7 +33,6 @@ export default (store) => {
 
   socket.onmessage = ({ data, }) => {
     const response = JSON.parse(data);
-    console.log(response);
     switch(response.type) {
       case 'NEW_PLAYERS':
         store.dispatch(actionNewPlayer(response.playerid));
@@ -59,7 +41,8 @@ export default (store) => {
         store.dispatch(actionOpponentMove(response.player, response.space));
         break;
       default:
-      console.log(response.message);
+        console.log(response.message);
     };
   };
+
 };
