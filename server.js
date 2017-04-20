@@ -41,7 +41,7 @@ w.on('connection', (ws) => {
       playerid: 0,
     }));
     ws.send(JSON.stringify({
-      type: "NEW-PLAYERS",
+      type: "NEW_PLAYERS",
       message: "You've joined the game",
       playerid: 1,
     }));
