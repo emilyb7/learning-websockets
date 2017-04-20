@@ -26,7 +26,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   actionMove: (event) => { dispatch({ type: 'MOVE', space: event.target.id, }) },
-  //actionNewPlayer: (playerId) => { dispatch({ type: 'NEW-PLAYERS', playerId: playerId, }); },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
