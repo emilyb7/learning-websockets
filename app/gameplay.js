@@ -1,5 +1,6 @@
 const move = (space, user, player, round, board) => {
   const [y, x] = space.split(":");
+
   if (board[y][x] === undefined && user === player && round !== null) {
     const newBoard = updateBoard(space, player, board);
     const outcome = findLine(player, round, newBoard);

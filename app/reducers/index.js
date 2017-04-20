@@ -2,24 +2,35 @@ import move from './move.js';
 import send from './send-message.js';
 import oppenentMove from './opponent-move.js';
 
+const initBoard = [
+  [undefined,undefined,undefined],
+  [undefined,undefined,undefined],
+  [undefined,undefined,undefined],
+];
+
+const counters = {
+  noughts: '0',
+  crosses: 'X',
+};
+
 const defaultState = {
   currentPlayer: null,
   players: [
     {
       id: 0,
       name: "player1",
-      counter: "O",
+      counter: counters.noughts,
       currentPlayer: false,
     },
     {
       id: 1,
       name: "player2",
-      counter: "X",
+      counter: counters.crosses,
       currentPlayer: false,
     },
 ],
   game: {
-    board: [[undefined,undefined,undefined],[undefined,undefined,undefined],[undefined,undefined,undefined]],
+    board: initBoard,
     player: 0,
     round: 0,
     win: null,
@@ -28,11 +39,25 @@ const defaultState = {
 };
 
 export default (state = defaultState, action) => {
+
+  console.log("action", action);
+
   switch(action.type) {
-    case 'MOVE': return move(state, action);
-    case 'NEW-PLAYERS': return Object.assign({}, state, { currentPlayer: action.response.playerid, });
-    case 'OPPONENT-MOVE': return oppenentMove(state, action);
-    case 'SEND': return send(state, action);
+    case 'MOVE':
+      return move(state, action);
+    case 'NEW_PLAYERS':
+    console.log("new players action yeah", action);
+      return {
+        ...state,
+        currentPlayer: action.playerId,
+      }
+    case 'OPPONENT-MOVE':
+      return oppenentMove(state, action);
+    case 'MESSAGE_SENT':
+      return {
+        ...state,
+        messages: state.messages.map(ms => ({ ...ms, sent: true, })),
+      };
     default:
       return state;
   }

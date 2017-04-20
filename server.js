@@ -36,7 +36,7 @@ w.on('connection', (ws) => {
     }));
   } else if (queue.length === 2) {
     queue[0].send(JSON.stringify({
-      type: "NEW-PLAYERS",
+      type: "NEW_PLAYERS",
       message: "another player has joined the game",
       playerid: 0,
     }));

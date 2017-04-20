@@ -1,18 +1,24 @@
-import { move } from './../gameplay.js';
+import { move, } from './../gameplay.js';
 
-export default (state, action) => {
-  const nextIteration = move(action.space, state.currentPlayer, state.game.player, state.game.round, state.game.board);
+export default (state, { space, }) => {
+
+  const nextIteration = move(
+    space, state.currentPlayer, state.game.player, state.game.round, state.game.board
+  );
+
   const msg = JSON.stringify({
     type: 'OPPONENT-MOVE',
     player: state.game.player,
-    space: action.space
+    space: space
   });
 
-  let messages = state.messages;
+  const openMessages = (messages, round) =>
+    messages.map(ms => ms.round)
+      .indexOf(round) < 0;
 
-  if (state.messages.map(msg => msg.round).indexOf(state.game.round) < 0) {
-    messages = state.messages.concat([{ message: msg, sent: false, round: state.game.round, }]);
-  }
+  const messages = openMessages(state.messages, state.game.round)
+    ? state.messages.concat([ { message: msg, sent: false, round: state.game.round, }, ])
+    : state.messages;
 
   return nextIteration.success === false
   ? state
