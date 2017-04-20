@@ -1,5 +1,4 @@
 import move from './move.js';
-import send from './send-message.js';
 import oppenentMove from './opponent-move.js';
 
 const initBoard = [
@@ -40,13 +39,10 @@ const defaultState = {
 
 export default (state = defaultState, action) => {
 
-  console.log("action", action);
-
   switch(action.type) {
     case 'MOVE':
       return move(state, action);
     case 'NEW_PLAYERS':
-    console.log("new players action yeah", action);
       return {
         ...state,
         currentPlayer: action.playerId,
