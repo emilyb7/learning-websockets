@@ -1,7 +1,7 @@
 body {
   padding: 0;
   margin: 0;
-  background-color: #DFE4E6;
+  background-color: #F05D5E;
   font-family: monospace;
   width: 100vw;
   height: 100vh;
@@ -42,11 +42,11 @@ h1 {
 .space {
   height: 60px;
   width: 60px;
-  border: 2px solid #2B85A0;
+  border: 2px solid #E4FF1A;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  font-size: 26px;
+    font-size: 26px;
   line-height: 50px;
 }
 
@@ -66,10 +66,14 @@ h1 {
   border-right: none;
 }
 
-.counterO {
-  color: #FF3E41;
+.counter0 {
+  color: #CEE7E6;
 }
 
 .counterX {
-  color: #084C61;
+  color: #1BE7FF;
+}
+
+.green {
+  color: #5BC16C;
 }
