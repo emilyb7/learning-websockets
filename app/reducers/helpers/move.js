@@ -1,4 +1,4 @@
-import { move, } from './../gameplay.js';
+import { move, } from './../../gameplay.js';
 
 export default (state, { space, }) => {
 

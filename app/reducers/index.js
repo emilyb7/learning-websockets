@@ -1,5 +1,5 @@
-import move from './move.js';
-import oppenentMove from './opponent-move.js';
+import move from './helpers/move.js';
+import oppenentMove from './helpers/opponent-move.js';
 
 const initBoard = [
   [undefined,undefined,undefined],

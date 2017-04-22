@@ -1,4 +1,4 @@
-import { move } from './../gameplay.js';
+import { move } from './../../gameplay.js';
 
 export default (state, { player, space, }) => {
   if (player === state.currentPlayer) return state;
@@ -10,8 +10,6 @@ export default (state, { player, space, }) => {
   const nextIteration = move(
     space, opponent, state.game.player, state.game.round, state.game.board
   );
-
-  console.log("iter", nextIteration);
 
   return nextIteration.success === false
     ? state

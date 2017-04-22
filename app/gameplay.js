@@ -39,7 +39,8 @@ const updateBoard = (space, player, board) => {
 }
 
 const threeInALine = (line, counter) =>
-  line.filter(elt => elt !== undefined).length === 3 && line.every(elt => elt === counter);
+  line.filter(elt => elt !== undefined).length === 3
+    && line.every(elt => elt === counter);
 
 const getCols = board => {
   const col0 = [ board[0][0], board[1][0], board[2][0], ];
@@ -71,6 +72,7 @@ const findLine = (player, round, board) => {
     // diagonals
     ["0:0", "1:1", "2:2"], ["0:2", "1:1", "2:0"],
   ];
+  
   const index = getAllLines(board)
     .findIndex((line, index) => threeInALine(line, player));
 
