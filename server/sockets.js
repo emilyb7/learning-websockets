@@ -1,9 +1,20 @@
 const ws = require('ws');
 
-const channel = (membersArr, message) => {
+const {
+  welcome, newPlayers, init, inQueue, playerLeaves, waiting, newMessage,
+} = require('./messages.js');
+
+const channel = (membersArr, messageCreator, payload) => {
   membersArr.forEach(member => {
-    member.send(message);
+    sendMessage(member, messageCreator, payload);
   });
+};
+
+const addConnectionToQueue = (queue, connection) => queue.concat([ connection, ]);
+
+const sendMessage = (connection, messageCreator, payload) => {
+  const msg = JSON.stringify(messageCreator(payload));
+  return connection.send(msg);
 };
 
 module.exports = server => {
@@ -14,89 +25,46 @@ module.exports = server => {
   let members = null;
 
   w.on('connection', (ws) => {
-    console.log('Client connected');
-    ws.on('close', () => console.log('Client disconnected'));
-  });
-
-  w.on('connection', (ws) => {
-    queue = queue.concat(ws);
+    queue = addConnectionToQueue(queue, ws);
 
     // start game
     if (queue.length === 1) {
-      ws.send(JSON.stringify({
-        type: "welcome",
-        message: "You've joined the game, waiting for another player to join",
-      }));
+      sendMessage(ws, welcome, null);
     } else if (queue.length === 2) {
-      queue[0].send(JSON.stringify({
-        type: "NEW_PLAYERS",
-        message: "another player has joined the game",
-        playerid: 0,
-      }));
-      ws.send(JSON.stringify({
-        type: "NEW_PLAYERS",
-        message: "You've joined the game",
-        playerid: 1,
-      }));
-
-      // create channel
+      sendMessage(queue[0], newPlayers, 0);
+      sendMessage(ws, newPlayers, 1);
       members = queue.slice(0, 2);
-      channel(members, JSON.stringify({
-        type: "init",
-        message: "game begins",
-      }));
+      channel(members, init, null);
     } else {
-      ws.send(JSON.stringify({
-        type: "queue",
-        message: "you're in a queue to join the game",
-      }));
+      sendMessage(ws, inQueue, null);
     }
 
-    // handle user input
+    // handle incoming messages
     ws.on('message', (msg) => {
       if (members) {
-        console.log(msg);
-        channel(members, msg);
+        channel(members, newMessage, msg);
       }
     });
 
-
     ws.on('close', (evt) => {
-      let index = queue.indexOf(ws);
+      const index = queue.indexOf(ws);
       queue = queue.filter((_,i) => i !== index);
       members = null;
 
       // end currently running game
       if (index < 2 && queue.length) {
-          queue[0].send(JSON.stringify({
-            type: "player-leaves",
-            message: "your opponent has left the game",
-          }));
+        sendMessage(queue[0], playerLeaves, null);
 
-          // start a new game
-          if (queue[1]) {
-            queue[1].send(JSON.stringify({
-              type: "NEW-PLAYERS",
-              message: "you're on",
-              playerid: 1,
-            }));
-            queue[0].send(JSON.stringify({
-              type: "NEW-PLAYERS",
-              message: "a new player has joined",
-              playerid: 0,
-            }))
-            members = queue.slice(0, 2);
-            channel(members, {
-              type: "init",
-              message: "new game begins",
-            });
-          } else {
-            queue[0].send(JSON.stringify({
-              type: "waiting",
-              message: "waiting for a new player to join",
-            }));
-          }
+        // start a new game
+        if (queue[1]) {
+          members = queue.slice(0, 2);
+          sendMessage(members[1], newPlayers, 1);
+          sendMessage(members[0], newPlayers, 0);
+          channel(members, init, null);
+        } else {
+          sendMessage(queue[0], waiting, null);
         }
-      });
+      }
+    });
   });
 }

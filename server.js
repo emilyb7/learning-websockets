@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const createSocket = require('./server/sockets.js');
 
 const PORT = process.env.PORT || 7000;

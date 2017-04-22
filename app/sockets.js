@@ -33,12 +33,16 @@ export default (store) => {
 
   socket.onmessage = ({ data, }) => {
     const response = JSON.parse(data);
-    switch(response.type) {
+    const type = response.type === 'NEW_MESSAGE'
+      ? JSON.parse(response.message).type
+      :  response.type;
+    switch(type) {
       case 'NEW_PLAYERS':
         store.dispatch(actionNewPlayer(response.playerid));
         break;
       case 'OPPONENT-MOVE':
-        store.dispatch(actionOpponentMove(response.player, response.space));
+        const parsed = JSON.parse(response.message);
+        store.dispatch(actionOpponentMove(parsed.player, parsed.space));
         break;
       default:
         console.log(response.message);
