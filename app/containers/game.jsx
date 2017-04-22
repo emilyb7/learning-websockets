@@ -2,18 +2,26 @@ import React from 'react';
 import { connect, } from 'react-redux';
 
 import Board from './../components/board.jsx';
+import Feedback from './../components/feedback.jsx';
 
 import socket from './../sockets.js';
 
 const Game = props => {
 
   return (
-    <Board
+    <div className="game">
+      <Board
+        currentPlayer={ props.currentPlayer }
+        game={ props.game }
+        players={ props.players }
+        actionMove={ props.actionMove }
+      />
+    <Feedback
+      message={ props.feedback }
       currentPlayer={ props.currentPlayer }
       game={ props.game }
-      players={ props.players }
-      actionMove={ props.actionMove }
     />
+    </div>
   );
 };
 
@@ -22,6 +30,7 @@ const mapStateToProps = state => ({
   game: state.game,
   players: state.players,
   messages: state.messages,
+  feedback: state.feedback,
 });
 
 const mapDispatchToProps = dispatch => ({

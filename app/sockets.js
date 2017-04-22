@@ -1,4 +1,4 @@
-import { actionNewPlayer, messageSent, actionOpponentMove, } from './actions.js';
+import { actionNewPlayer, messageSent, actionOpponentMove, actionNewMessage } from './actions.js';
 
 let socket;
 
@@ -38,7 +38,7 @@ export default (store) => {
       :  response.type;
     switch(type) {
       case 'NEW_PLAYERS':
-        store.dispatch(actionNewPlayer(response.playerid));
+        store.dispatch(actionNewPlayer(response.playerid, response.message));
         break;
       case 'OPPONENT-MOVE':
         const parsed = JSON.parse(response.message);
@@ -46,6 +46,7 @@ export default (store) => {
         break;
       default:
         console.log(response.message);
+        store.dispatch(actionNewMessage(response.message));
     };
   };
 };

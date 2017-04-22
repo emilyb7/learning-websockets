@@ -1,6 +1,11 @@
 import move from './helpers/move.js';
 import oppenentMove from './helpers/opponent-move.js';
 
+const clearMessages = state => ({
+  ...state,
+  feedback: '',
+});
+
 const initBoard = [
   [undefined,undefined,undefined],
   [undefined,undefined,undefined],
@@ -35,25 +40,32 @@ const defaultState = {
     win: null,
   },
   messages: [],
+  feedback: '',
 };
 
 export default (state = defaultState, action) => {
 
   switch(action.type) {
     case 'MOVE':
-      return move(state, action);
+      return clearMessages(move(state, action));
     case 'NEW_PLAYERS':
       return {
         ...state,
         currentPlayer: action.playerId,
+        feedback: action.message,
       }
     case 'OPPONENT-MOVE':
-      return oppenentMove(state, action);
+      return clearMessages(oppenentMove(state, action));
     case 'MESSAGE_SENT':
       return {
         ...state,
         messages: state.messages.map(ms => ({ ...ms, sent: true, })),
       };
+    case 'NEW_MESSAGE':
+      return {
+        ...state,
+        feedback: action.message,
+      }
     default:
       return state;
   }
