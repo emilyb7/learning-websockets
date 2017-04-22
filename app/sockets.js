@@ -44,5 +44,4 @@ export default (store) => {
         console.log(response.message);
     };
   };
-
 };
