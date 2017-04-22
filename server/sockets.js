@@ -1,13 +1,17 @@
 const ws = require('ws');
 
 const {
-  welcome, newPlayers, init, inQueue, playerLeaves, waiting, newMessage,
+  welcome,
+  newPlayers,
+  init,
+  inQueue,
+  playerLeaves,
+  waiting,
+  newMessage,
 } = require('./messages.js');
 
 const channel = (membersArr, messageCreator, payload) => {
-  membersArr.forEach(member => {
-    sendMessage(member, messageCreator, payload);
-  });
+  membersArr.forEach(member => { sendMessage(member, messageCreator, payload); });
 };
 
 const addConnectionToQueue = (queue, connection) => queue.concat([ connection, ]);

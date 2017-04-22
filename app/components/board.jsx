@@ -31,7 +31,7 @@ const Board = ({ currentPlayer, game, players, actionMove, }) => {
 
   const rows = game.board.map((row, rowIndex) => (
     <div
-      className="row "
+      className={ `row row${rowIndex}` }
       key={ `row_${rowIndex}` }
     >{ getSpaces(row, rowIndex, players) }</div>)
   );
