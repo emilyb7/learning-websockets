@@ -1,12 +1,12 @@
 const test = require('tape');
 
-const updateBoard = require('../gameplay.js').updateBoard;
-const threeInALine = require('../gameplay.js').threeInALine;
-const getCols = require('../gameplay.js').getCols;
-const getDiagonals = require('../gameplay.js').getDiagonals;
-const getAllLines = require('../gameplay.js').getAllLines;
-const findLine = require('../gameplay.js').findLine;
-const move = require('../gameplay.js').move;
+const updateBoard = require('../app/gameplay.js').updateBoard;
+const threeInALine = require('../app/gameplay.js').threeInALine;
+const getCols = require('../app/gameplay.js').getCols;
+const getDiagonals = require('../app/gameplay.js').getDiagonals;
+const getAllLines = require('../app/gameplay.js').getAllLines;
+const findLine = require('../app/gameplay.js').findLine;
+const move = require('../app/gameplay.js').move;
 
 test("move takes all variables from the game and updates the state", (t) => {
   // params: space, user, player, round, board

@@ -1,22 +1,96 @@
 body {
   padding: 0;
   margin: 0;
-  background-color: pink;
+  background-color: #F05D5E;
+  font-family: monospace;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+#root {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.game {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 #board {
-  height: 80px;
-  width: 80px;
+  height: 190px;
+  width: 190px;
+  display: flex;
+  flex-direction: column;
+  align-items: baseline;
+  align-self: center;
+}
+
+h1 {
+  text-align: center;
 }
 
 .row {
-  height: 25px;
-  width: 80px;
+  height: 60px;
+  width: 280px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
 }
 
 .space {
-  height: 20px;
-  width: 20px;
-  border: 1px solid #fff;
-  display: inline-table;
+  height: 60px;
+  width: 60px;
+  border: 2px solid #E4FF1A;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+    font-size: 26px;
+  line-height: 50px;
+}
+
+.row:first-child .space {
+  border-top: none;
+}
+
+.row:last-child .space {
+  border-bottom: none;
+}
+
+.space:first-child {
+  border-left: none;
+}
+
+.space:last-child {
+  border-right: none;
+}
+
+.counter0 {
+  color: #CEE7E6;
+}
+
+.counterX {
+  color: #1BE7FF;
+}
+
+.green {
+  color: #5BC16C;
+}
+
+p {
+  margin: 0;
+}
+
+.feedback {
+  width: 300px;
+  color: #CEE7E6;
+  align-self: center;
+  text-align: center;
 }

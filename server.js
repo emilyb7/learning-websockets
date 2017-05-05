@@ -1,14 +1,11 @@
-const Hapi = require('hapi');
-const Inert = require('inert');
-const ws = require('ws');
+const express = require('express');
+const createSocket = require('./server/sockets.js');
 
-const server = new Hapi.Server();
+const PORT = process.env.PORT || 7000;
 
-server.register([Inert], (err) => {
+const server = express()
+  .use('/', express.static(__dirname))
+  .use('/css', express.static(__dirname + "/public"))
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
 
-  server.connection({ port: process.env.PORT || 7000, });
-
-  server.route(require('./src/routes.js'));
-
-  server.start(() => { console.log((`Server running at: ${server.info.uri}`)); })
-});
+createSocket(server);
